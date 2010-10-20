@@ -247,6 +247,17 @@ class ExtensionsTestCase(JinjaTestCase):
         assert ext[0].__class__ is T1
         assert ext[1].__class__ is T2
 
+    def test_extension_tag_ordering(self):
+        import random
+        extensions = []
+        for i in range(5):
+            extensions.append(type('Test%dExtension' % i, (TestExtension,), {'ext_attr': i, 'priority': i}))
+        random.shuffle(extensions)
+        env = Environment(extensions=extensions)
+        tmpl = env.from_string('{% test %}')
+        assert tmpl.render() == 'False|9|23|{}'
+
+
 
 class InternationalizationTestCase(JinjaTestCase):
 
