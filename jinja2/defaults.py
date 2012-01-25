@@ -8,7 +8,7 @@
     :copyright: (c) 2010 by the Jinja Team.
     :license: BSD, see LICENSE for more details.
 """
-from jinja2.utils import generate_lorem_ipsum, Cycler, Joiner
+from jinja2.utils import generate_lorem_ipsum, Cycler, Joiner, Matcher
 
 
 # defaults for the parser / lexer
@@ -32,7 +32,8 @@ DEFAULT_NAMESPACE = {
     'dict':         lambda **kw: kw,
     'lipsum':       generate_lorem_ipsum,
     'cycler':       Cycler,
-    'joiner':       Joiner
+    'joiner':       Joiner,
+    'matcher':      Matcher,
 }
 
 

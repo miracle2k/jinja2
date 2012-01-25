@@ -1211,6 +1211,37 @@ The following functions are available in the global scope by default:
 
     **new in Jinja 2.1**
 
+.. class:: matcher(compare_value, match_insert, no_match)
+
+    Can be used to avoid repeating the same comparison over and over. Every
+    time the matcher object is called, it will compare the value given with
+    the reference value passed when the Matcher object was created. Depending
+    on whether the values match, a string may be returned.
+
+    This is useful, for example, to flag the current page link in a
+    navigation::
+
+        {% set page_mark = matcher(PAGE, 'class="active"'|safe) %}
+        <a {{ page_mark('index') }}></a>
+        <a {{ page_mark('contact') }}></a>
+
+    If a text should be inserted in case the values do not match, an optional
+    third argument is supported::
+
+        {% set matcher(PAGE, 'class="active"'|safe, 'class="inactive"'|safe) %}
+
+    For a navigation tree, the reference value may be an iterable. If this
+    is the case, then any of the values in the iterable will cause a match::
+
+        {% set page_mark = matcher(('products', 'plasma'), 'class="active"'|safe) %}
+        <li>
+           <a {{ page_mark('products') }}></a>
+           <ul>
+               <a {{ page_mark('plasma') }}></a>
+               <a {{ page_mark('lcd') }}></a>
+           </ul>
+        </li>
+
 
 Extensions
 ----------

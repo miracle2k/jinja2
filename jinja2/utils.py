@@ -596,6 +596,26 @@ class Joiner(object):
         return self.sep
 
 
+class Matcher(object):
+    """A matching helper for templates."""
+
+    def __init__(self, cmp_value, match_insert, no_match=''):
+        try:
+            iter(cmp_value)
+        except TypeError:
+            self.cmp_values = [cmp_value]
+        else:
+            self.cmp_values = cmp_value
+        self.match_insert = match_insert
+        self.no_match = no_match
+
+    def __call__(self, *items):
+        for item in items:
+            if item in self.cmp_values:
+                return self.match_insert
+        return self.no_match
+
+
 # try markupsafe first, if that fails go with Jinja2's bundled version
 # of markupsafe.  Markupsafe was previously Jinja2's implementation of
 # the Markup object but was moved into a separate package in a patchleve
